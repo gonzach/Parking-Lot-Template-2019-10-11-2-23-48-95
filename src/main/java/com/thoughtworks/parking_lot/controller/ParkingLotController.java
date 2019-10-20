@@ -1,6 +1,8 @@
 package com.thoughtworks.parking_lot.controller;
 
+import com.thoughtworks.parking_lot.core.Orders;
 import com.thoughtworks.parking_lot.core.ParkingLots;
+import com.thoughtworks.parking_lot.service.OrderServices;
 import com.thoughtworks.parking_lot.service.ParkingLotServices;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class ParkingLotController {
 
     @Autowired
     ParkingLotServices parkingLotsServices;
+
+    @Autowired
+    OrderServices orderServices;
 
     @PostMapping(produces = {"application/json"})
     public ParkingLots addParkingLot(@RequestBody ParkingLots parkingLots) throws NotFoundException {
@@ -39,6 +44,11 @@ public class ParkingLotController {
     @PatchMapping(value = "/{name}", produces = {"application/json"})
     public ParkingLots modifyCapacity(@PathVariable String name, @RequestBody ParkingLots parkingLots) throws NotFoundException {
         return parkingLotsServices.modifyCapacity(name, parkingLots);
+    }
+
+    @PostMapping(value = "/{name}/orders", produces = {"application/json"})
+    public Orders createOrder(@PathVariable String name, @RequestBody Orders orders) throws NotFoundException {
+        return orderServices.addOrder(name, orders);
     }
 
 }

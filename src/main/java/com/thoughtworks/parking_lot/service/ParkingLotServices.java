@@ -15,7 +15,7 @@ public class ParkingLotServices {
     public static final String PARKING_LOT_ALREADY_EXISTING = "Parking lot already existing!";
     private static final String NO_PARKING_LOT_WAS_FOUND = "No Parking lot found!";
     private static final String PARKING_LOT_WAS_DELETED = "Parking lot was deleted!";
-    private static final String NO_PARKING_LOT_WAS_DELETED = "No Parking lot was deleted!" ;
+    private static final String NO_PARKING_LOT_WAS_DELETED = "No Parking lot was deleted!";
 
     @Autowired
     private ParkingLotRepository parkingLotRepository;
@@ -35,15 +35,11 @@ public class ParkingLotServices {
 
     public List<ParkingLots> getParkingLotByName(String name) throws NotFoundException {
         if (name == null) {
-            if (parkingLotRepository.findAll().size() == 0)
-            {
+            if (parkingLotRepository.findAll().size() == 0) {
                 throw new NotFoundException(NO_PARKING_LOT_WAS_FOUND);
-            }
-            else
+            } else
                 return parkingLotRepository.findAll();
-        }
-
-        else if(parkingLotRepository.findByFirstNameLike(name).isEmpty()) {
+        } else if (parkingLotRepository.findByFirstNameLike(name).isEmpty()) {
             throw new NotFoundException(NO_PARKING_LOT_WAS_FOUND);
         }
 
