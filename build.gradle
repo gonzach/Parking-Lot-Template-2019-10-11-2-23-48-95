@@ -24,6 +24,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: "org.flywaydb.flyway"
 
 group = 'com.thoughtworks'
 version = '0.0.1-SNAPSHOT'
@@ -31,6 +32,11 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
+}
+
+flyway {
+    url = 'jdbc:h2:file:./target/court'
+    user = 'sa'
 }
 
 dependencies {

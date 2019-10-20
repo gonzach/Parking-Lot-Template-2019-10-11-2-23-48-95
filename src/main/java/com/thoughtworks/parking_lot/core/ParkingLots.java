@@ -1,7 +1,12 @@
 package com.thoughtworks.parking_lot.core;
 
-class ParkingLots {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public
+class ParkingLots {
+    @Id
     private String name;
 
     private int capacity;
