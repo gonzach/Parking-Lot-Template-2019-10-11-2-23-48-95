@@ -4,6 +4,7 @@ import com.thoughtworks.parking_lot.core.ParkingLots;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,5 +22,9 @@ public class ParkingLotServices {
             return parkingLots;
         }
         throw new NotFoundException(PARKING_LOT_ALREADY_EXISTING);
+    }
+
+    public Iterable<ParkingLots> getListOfParkingLot(Integer page, Integer pageSize) {
+        return parkingLotRepository.findAll(PageRequest.of(page - 1, pageSize));
     }
 }

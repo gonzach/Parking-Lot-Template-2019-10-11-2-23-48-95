@@ -8,13 +8,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -44,6 +50,20 @@ public class ParkingLotControllerTest {
         result.andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.id", is(0)));
+    }
+
+    @Test
+    void should_get_list_of_parkingLots() throws Exception {
+        List<ParkingLots> parkingLotsList = new ArrayList<>();
+        parkingLotsList.add(new ParkingLots());
+        parkingLotsList.add(new ParkingLots());
+
+        when(parkingLotsServices.getListOfParkingLot(1, 15)).thenReturn(parkingLotsList);
+        ResultActions result = mvc.perform(get("/parkingLots/all")
+                .contentType(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
 }
