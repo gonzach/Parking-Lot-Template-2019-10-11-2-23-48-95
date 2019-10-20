@@ -14,33 +14,30 @@ buildscript {
     }
 }
 
+plugins {
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.junit.platform.gradle.plugin'
-apply plugin: "org.flywaydb.flyway"
 
-group = 'com.tw'
+group = 'com.thoughtworks'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
 }
 
-flyway {
-    url = 'jdbc:h2:file:./target/court'
-    user = 'sa'
-}
-
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'com.h2database:h2'
-
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.0.0')
     testCompile('org.junit.jupiter:junit-jupiter-params:5.0.0')
