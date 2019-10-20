@@ -10,7 +10,6 @@ public class CustomError {
 
     private String message;
 
-
     public void setCode(int code) {
         this.code = code;
     }

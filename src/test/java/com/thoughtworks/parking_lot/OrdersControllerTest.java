@@ -37,9 +37,6 @@ public class OrdersControllerTest {
     @MockBean
     private OrderServices orderServices;
 
-    @MockBean
-    private ParkingLotServices parkingLotServices;
-
     @Test
     void should_add_order() throws Exception {
         ParkingLots parkinglot = new ParkingLots();
@@ -48,7 +45,7 @@ public class OrdersControllerTest {
         parkinglot.setLocation("MOA UPPER DECK");
 
         when(orderServices.addOrder(anyString(), any())).thenReturn(new Orders());
-        ResultActions result = mvc.perform(post("/parkingLots/{name}/orders", "ParkingLot-1")
+        ResultActions result = mvc.perform(post("/parkingLots/{name}", "ParkingLot-1")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(new Orders())));
 

@@ -1,5 +1,6 @@
 package com.thoughtworks.parking_lot.controller;
 
+import com.thoughtworks.parking_lot.core.Car;
 import com.thoughtworks.parking_lot.core.Orders;
 import com.thoughtworks.parking_lot.core.ParkingLots;
 import com.thoughtworks.parking_lot.service.OrderServices;
@@ -46,9 +47,14 @@ public class ParkingLotController {
         return parkingLotsServices.modifyCapacity(name, parkingLots);
     }
 
-    @PostMapping(value = "/{name}/orders", produces = {"application/json"})
-    public Orders createOrder(@PathVariable String name, @RequestBody Orders orders) throws NotFoundException {
-        return orderServices.addOrder(name, orders);
+    @PostMapping(value = "/{name}", produces = {"application/json"})
+    public Orders createOrder(@PathVariable String name, @RequestBody Car car) throws NotFoundException {
+        return orderServices.addOrder(name, car);
+    }
+
+    @DeleteMapping(value = "/{name}/orders/{plateNumber}", produces = {"application/json"})
+    public Orders createOrder(@PathVariable String name, @PathVariable String plateNumber, @RequestBody Car car) throws NotFoundException {
+        return orderServices.deleteOrder(name, plateNumber, car);
     }
 
 }

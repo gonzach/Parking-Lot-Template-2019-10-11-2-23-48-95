@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface OrderRepository  extends JpaRepository<Orders, Long> {
     @Query("Select o from Orders o where o.orderNo = :orderNo")
     Orders findOneByOrderNo(@Param("order") Integer order);
+
+    @Query("Select o from Orders o where o.plateNumber= :plateNumber")
+    Orders findPlateNumber(@Param("plateNumber") String plateNumber);
 }
