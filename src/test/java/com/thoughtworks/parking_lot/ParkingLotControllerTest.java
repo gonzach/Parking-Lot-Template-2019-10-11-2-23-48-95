@@ -58,12 +58,29 @@ public class ParkingLotControllerTest {
         parkingLotsList.add(new ParkingLots());
         parkingLotsList.add(new ParkingLots());
 
-        when(parkingLotsServices.getListOfParkingLot(1, 15)).thenReturn(parkingLotsList);
+        when(parkingLotServices.getListOfParkingLot(1, 15)).thenReturn(parkingLotsList);
         ResultActions result = mvc.perform(get("/parkingLots/all")
                 .contentType(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
+
+    @Test
+    void should_get_parking_lot_by_name_when_Found() throws Exception {
+        ParkingLots parkingLot = new ParkingLots();
+        parkingLot.setName("Tin");
+
+        List<ParkingLots> parkingLotsList = new ArrayList<>();
+        parkingLotsList.add(parkingLot);
+
+        when(parkingLotServices.getParkingLotByName("Tin")).thenReturn(parkingLotsList);
+        ResultActions result = mvc.perform(get("/parkingLots?name=Tin")
+                .contentType(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
 
 }

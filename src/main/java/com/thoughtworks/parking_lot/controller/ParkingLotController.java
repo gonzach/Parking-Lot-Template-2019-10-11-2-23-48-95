@@ -6,6 +6,8 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/parkingLots")
 public class ParkingLotController {
@@ -23,4 +25,10 @@ public class ParkingLotController {
                                                      @RequestParam(defaultValue = "15") Integer pageSize) {
         return parkingLotsServices.getListOfParkingLot(page, pageSize);
     }
+
+    @GetMapping(produces = {"application/json"})
+    public List<ParkingLots> getParkingLotByName(@RequestParam(required = false) String name) throws NotFoundException {
+        return parkingLotsServices.getParkingLotByName(name);
+    }
+
 }
