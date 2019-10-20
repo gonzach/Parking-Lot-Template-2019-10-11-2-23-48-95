@@ -13,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +111,35 @@ public class ParkingLotControllerTest {
         result.andExpect(status().isOk());
     }
 
+    @Test
+    void should_modify_parkingLot() throws Exception {
 
+        ParkingLots modifyCapacity = new ParkingLots();
+        modifyCapacity.setCapacity(10);
+
+        ParkingLots modifyParkinglot = new ParkingLots();
+        modifyCapacity.setCapacity(10);
+        modifyCapacity.setName("Tin");
+        modifyCapacity.setLocation("MOA UPPER DECK");
+
+        when(parkingLotServices.modifyCapacity(anyString(), any())).thenReturn(modifyParkinglot);
+        ResultActions result = mvc.perform(patch("/parkingLots/Tin")
+                .content(objectMapper.writeValueAsString(modifyCapacity))
+                .contentType(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk());
+    }
+
+    @Test
+    void should_not_modify_parkingLot() throws Exception {
+
+        ParkingLots modifyCapacity = new ParkingLots();
+        modifyCapacity.setCapacity(10);
+
+        when(parkingLotServices.modifyCapacity(anyString(), any())).thenThrow(new NotFoundException("No Parking lot found"));
+        ResultActions result = mvc.perform(patch("/parkingLots/Tin")
+                .content(objectMapper.writeValueAsString(modifyCapacity))
+                .contentType(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isNotFound());
+    }
 
 }

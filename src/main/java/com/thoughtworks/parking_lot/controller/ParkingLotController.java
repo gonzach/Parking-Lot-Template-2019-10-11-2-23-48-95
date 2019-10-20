@@ -36,4 +36,9 @@ public class ParkingLotController {
         return parkingLotsServices.deleteParkingLotByName(name);
     }
 
+    @PatchMapping(value = "/{name}", produces = {"application/json"})
+    public ParkingLots modifyCapacity(@PathVariable String name, @RequestBody ParkingLots parkingLots) throws NotFoundException {
+        return parkingLotsServices.modifyCapacity(name, parkingLots);
+    }
+
 }

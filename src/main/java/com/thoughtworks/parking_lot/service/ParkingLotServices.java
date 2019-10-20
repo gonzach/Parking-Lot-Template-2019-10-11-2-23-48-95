@@ -58,4 +58,14 @@ public class ParkingLotServices {
         }
         throw new NotFoundException(NO_PARKING_LOT_WAS_DELETED);
     }
+
+    public ParkingLots modifyCapacity(String name, ParkingLots parkingLots) throws NotFoundException {
+        ParkingLots parkingLot = parkingLotRepository.findOneByName(name);
+        if (parkingLot != null) {
+            parkingLot.setCapacity(parkingLots.getCapacity());
+            parkingLotRepository.save(parkingLot);
+            return parkingLot;
+        }
+        throw new NotFoundException(NO_PARKING_LOT_WAS_FOUND);
+    }
 }
