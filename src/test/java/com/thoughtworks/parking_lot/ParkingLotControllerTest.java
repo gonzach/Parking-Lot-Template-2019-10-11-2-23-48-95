@@ -3,6 +3,7 @@ package com.thoughtworks.parking_lot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.parking_lot.core.ParkingLots;
 import com.thoughtworks.parking_lot.service.ParkingLotServices;
+import javassist.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,6 +83,31 @@ public class ParkingLotControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(1)));
     }
+
+    @Test
+    void should_throw_parking_lot_not_found_when_no_parking_lot_get() throws Exception {
+
+        when(parkingLotServices.getParkingLotByName(anyString())).thenThrow(new NotFoundException("No Parkinglot was found!"));
+        ResultActions result = mvc.perform(get("/parkingLots?name=Tin"));
+        result.andExpect(status().isNotFound());
+    }
+
+    @Test
+    void should_delete_parkingLot_by_name_when_Found() throws Exception {
+
+        when(parkingLotServices.deleteParkingLotByName("Tin")).thenReturn("Company was deleted!");
+        ResultActions result = mvc.perform(delete("/parkingLots/Tin"));
+        result.andExpect(status().isOk());
+    }
+
+    @Test
+    void should_not_delete_parkingLot_by_name_when_no_Found() throws Exception {
+
+        when(parkingLotServices.deleteParkingLotByName("Tubs")).thenReturn("No Company was deleted!");
+        ResultActions result = mvc.perform(delete("/parkingLots/Tin"));
+        result.andExpect(status().isOk());
+    }
+
 
 
 }

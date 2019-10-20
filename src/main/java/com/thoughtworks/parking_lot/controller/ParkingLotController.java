@@ -31,4 +31,9 @@ public class ParkingLotController {
         return parkingLotsServices.getParkingLotByName(name);
     }
 
+    @DeleteMapping(value = "/{name}", produces = {"application/json"})
+    public String deleteParkingLotByName(@PathVariable String name) throws NotFoundException {
+        return parkingLotsServices.deleteParkingLotByName(name);
+    }
+
 }
