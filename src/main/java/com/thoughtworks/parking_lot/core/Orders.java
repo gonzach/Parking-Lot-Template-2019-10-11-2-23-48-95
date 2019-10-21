@@ -9,7 +9,7 @@ public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int orderNo;
+    private Integer orderNo;
 
     private String name;
 
@@ -24,11 +24,11 @@ public class Orders {
     public Orders() {
     }
 
-    public int getOrderNo() {
+    public Integer getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(int orderNo) {
+    public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
     }
 

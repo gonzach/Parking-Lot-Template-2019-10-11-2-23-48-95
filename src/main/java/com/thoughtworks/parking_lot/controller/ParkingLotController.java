@@ -53,8 +53,8 @@ public class ParkingLotController {
     }
 
     @DeleteMapping(value = "/{name}/orders/{plateNumber}", produces = {"application/json"})
-    public Orders createOrder(@PathVariable String name, @PathVariable String plateNumber, @RequestBody Car car) throws NotFoundException {
-        return orderServices.deleteOrder(name, plateNumber, car);
+    public Orders createOrder(@PathVariable String name, @PathVariable String plateNumber) throws NotFoundException {
+        return orderServices.deleteOrder(name, plateNumber);
     }
 
 }
